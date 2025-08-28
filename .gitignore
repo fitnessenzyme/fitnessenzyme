@@ -1,0 +1,21 @@
+# Django & Python
+*.pyc
+__pycache__/
+db.sqlite3
+
+# Environment
+.env
+venv/
+env/
+
+# IDE & Cache
+*.log
+*.pot
+*.pyc
+.DS_Store
+.idea/
+.vscode/
+
+# Static & Media
+staticfiles/
+media/
