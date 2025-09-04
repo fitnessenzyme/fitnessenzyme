@@ -1,0 +1,5 @@
+<h1>{{ post.title }}</h1>
+<p>{{ post.content }}</p>
+{% if post.cover_image %}<img src="{{ post.cover_image.url }}" alt="cover">{% endif %}
+{% if post.video_url %}<p>Video: {{ post.video_url }}</p>{% endif %}
+{% if post.video_file %}<video controls src="{{ post.video_file.url }}"></video>{% endif %}

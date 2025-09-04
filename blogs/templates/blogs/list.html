@@ -1,0 +1,8 @@
+<h1>Blogs</h1>
+<ul>
+  {% for p in posts %}
+    <li><a href="{% url 'blog_detail' p.slug %}">{{ p.title }}</a> ({{ p.post_type }})</li>
+  {% empty %}
+    <li>No posts yet.</li>
+  {% endfor %}
+</ul>
