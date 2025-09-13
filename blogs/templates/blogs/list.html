@@ -1,8 +1,60 @@
-<h1>Blogs</h1>
-<ul>
-  {% for p in posts %}
-    <li><a href="{% url 'blog_detail' p.slug %}">{{ p.title }}</a> ({{ p.post_type }})</li>
-  {% empty %}
-    <li>No posts yet.</li>
-  {% endfor %}
-</ul>
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Blogs</title>
+    <link rel="stylesheet" href="{% static 'style/list.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header class="page-header">
+            <h1 class="page-title">All Blogs</h1>
+            <div class="subtitle">Explore our latest insights and stories</div>
+        </header>
+
+        {% if posts %}
+            <div class="blog-grid">
+                {% for post in posts %}
+                <article class="blog-card">
+                    <div class="blog-image">
+                        {% if post.cover_image %}
+                            <img src="{{ post.cover_image.url }}" alt="{{ post.title }}">
+                        {% else %}
+                            <img src="{% static 'image/defaultimg.png' %}" alt="Default Image">
+                        {% endif %}
+                    </div>
+                    <div class="blog-content">
+                        <div class="blog-meta">
+                            <span class="date">{{ post.created_at|date:"M d, Y" }}</span>
+                        </div>
+                        <h2 class="blog-title">
+                            <a href="{% url 'blog-detail' slug=post.slug %}">{{ post.title }}</a>
+                        </h2>
+                        <p class="blog-excerpt">{{ post.content|striptags|truncatewords:25|safe }}</p>
+                        <a href="{% url 'blog-detail' slug=post.slug %}" class="read-more">
+                            <span>Continue Reading</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M5 12h14M12 5l7 7-7 7"/>
+                            </svg>
+                        </a>
+                    </div>
+                </article>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="empty-state">
+                <div class="empty-icon">📝</div>
+                <h2>No blogs available</h2>
+                <p>Check back later for new content</p>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>
+
+

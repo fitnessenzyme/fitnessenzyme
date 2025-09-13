@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 from pathlib import Path
 import os
 from decouple import config
+from .configckeditor import *
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -43,6 +44,7 @@ INSTALLED_APPS = [
     #fitnessenzyme apps
     'accounts',
     'blogs',
+    "django_ckeditor_5",
 ]
 
 MIDDLEWARE = [
@@ -157,9 +159,19 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
+#ckeditor
+CKEDITOR_UPLOAD_PATH = "uploads/"
+
+
+
 #new media url
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+
 
 TEMPLATES[0]['DIRS'] = [BASE_DIR / 'templates']
+
+#login
+LOGIN_URL = '/accounts/login/'

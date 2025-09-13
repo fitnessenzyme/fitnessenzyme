@@ -1,0 +1,159 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fitness Enzyme</title>
+  <link rel="stylesheet" href="{% static 'style/base.css' %}">
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="logo"><a href="#"><img src="{% static 'image/LOGO.png' %}" alt="Logo"></a></div>
+
+    <!-- Hamburger (checkbox + label) -->
+    <input type="checkbox" id="menu-toggle" class="menu-toggle">
+    <label for="menu-toggle" class="menu-icon">
+        <span></span>
+        <span></span>
+        <span></span>
+    </label>
+
+    <ul class="nav-links">
+      <li><a href="#">Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="{% url 'blog-list' %}">Blog</a></li>
+      <li><a href="#connect">Connect</a></li>
+      <li><a href="#testimonials">Testimonials</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-img">
+      <img src="{% static 'image/heroone.png' %}" alt="Hero Image">
+    </div>
+    <div class="hero-text">
+      <h1>Transform Your Body, <br>Mind & Lifestyle</h1>
+      <p>Your personal fitness catalyst – Fitness Enzyme helps you accelerate<br> your journey with expert coaching, online & offline training,<br> and customized workout + nutrition plans designed just for you.</p>
+      
+      <ul class="features">
+        <li>Personalized Training</li>
+        <li>Science-Backed Workouts</li>
+      </ul>
+      <ul class="features">
+        <li>Online + Offline Support</li>
+        <li>Track Your Progress</li>
+      </ul>
+      
+      <div class="hero-buttons">
+        <a href="#connect" class="btn-primary">Start your journey</a>
+        <a href="#programs" class="btn-secondary">Explore Programs</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Meet Coach -->
+  <section class="coach" id="about">
+    <div class="coach-text">
+      <h2>Meet Your Coach</h2>
+      <p>Hi, I’m <b>Renuka</b>, a passionate fitness coach helping people<br> transform their lifestyle<br> and unlock their true potential.</p>
+      <ul class="coachlist">
+        <li>✔ Certified Fitness & Nutrition Expert</li>
+        <li>✔ 7+ Years of Coaching Experience</li>
+        <li>✔ Helped 500+ Clients Achieve Their Goals</li>
+        <li>✔ Personalized 1-on-1 & Online Training</li>
+      </ul>
+      <a href="#connect" class="btn-primary">Know More About Me</a>
+    </div>
+
+    <div class="container">
+      <div class="background-shape"></div>
+      <img src="{% static 'image/coach.png' %}" alt="Coach Image" class="person">
+    </div>
+  </section>
+
+  <!-- Brands Section -->
+  <section class="brands">
+    <h2 class="brandtext">Worked With Leading Fitness Brands</h2>
+    <div class="brand-logos">
+      <div class="logo-track">
+        <img src="{% static 'image/brand1.png' %}" alt="Brand1">
+        <img src="{% static 'image/brand2.png' %}" alt="Brand2">
+        <img src="{% static 'image/brand3.png' %}" alt="Brand3">
+        <img src="{% static 'image/brand4.png' %}" alt="Brand4">
+        <!-- repeat logos for seamless scrolling -->
+        <img src="{% static 'image/brand1.png' %}" alt="Brand1">
+        <img src="{% static 'image/brand2.png' %}" alt="Brand2">
+        <img src="{% static 'image/brand3.png' %}" alt="Brand3">
+        <img src="{% static 'image/brand4.png' %}" alt="Brand4">
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="testimonials" id="testimonials">
+    <h2>What Our Clients Say</h2>
+    <div class="testimonial-cards">
+      <div class="card">
+        <span class="quote">“</span>
+        <p>Coach Rahul has been a true game-changer for me! His personalized fitness programs helped me achieve my dream body in just 12 weeks.</p>
+        <h4>— Priya Sharma</h4>
+      </div>
+      <div class="card">
+        <span class="quote">“</span>
+        <p>His coaching style is next-level! Not only did I lose weight but I also gained confidence and mental strength.</p>
+        <h4>— Rohit Verma</h4>
+      </div>
+      <div class="card">
+        <span class="quote">“</span>
+        <p>From diet to workouts, everything was perfectly designed. I highly recommend him to anyone serious about fitness.</p>
+        <h4>— Aisha Khan</h4>
+      </div>
+    </div>
+  </section>
+
+  <!-- Blog -->
+  <section class="blog">
+    <h2>Latest from the Coach’s Desk</h2>
+    <div class="blog-cards">
+      {% for post in latest_posts %}
+      <div class="card">
+        {% if post.cover_image %}
+          <img src="{{ post.cover_image.url }}" alt="{{ post.title }}">
+        {% else %}
+          <img src="{% static 'image/defaultimg.png' %}" alt="Default Blog Image">
+        {% endif %}
+
+        <div class="card-content">
+          <h3>
+            <a href="{% url 'blog-detail' slug=post.slug %}">
+              {{ post.title }}
+            </a>
+          </h3>
+          <p class="meta">By {{ post.author }} | {{ post.created_at|date:"M d, Y" }}</p>
+          <p>{{ post.content|striptags|truncatewords:20 }}</p>
+          <a href="{% url 'blog-detail' slug=post.slug %}" class="btn-secondary">Read More</a>
+        </div>
+      </div>
+      {% empty %}
+        <p>No blogs available.</p>
+      {% endfor %}
+    </div>
+    <a href="{% url 'blog-list' %}" class="btn-link">Read All</a>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer" id="connect">
+    <div class="footer-links">
+      <a href="#">Home</a>
+      <a href="#about">About</a>
+      <a href="{% url 'blog-list' %}">Blog</a>
+      <a href="#connect">Connect</a>
+      <a href="#testimonials">Testimonials</a>
+    </div>
+    <p>© {{ now|date:"Y" }} Fitness Enzyme. All Rights Reserved.</p>
+  </footer>
+</body>
+</html>

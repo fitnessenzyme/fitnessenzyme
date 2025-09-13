@@ -1,0 +1,98 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    width: 100%;
+}
+
+/* Main container */
+.maincard {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+/* Background with blur */
+.bg {
+    position: absolute;
+    inset: 0;
+    background: url("../image/backgroundlogin.jpg") no-repeat center/cover;
+    filter: blur(10px);
+    transform: scale(1.1); /* prevent edge cutoff */
+    z-index: 0;
+}
+
+/* Glassmorphism login card */
+.innercard {
+    position: relative;
+    z-index: 1;
+    width: 400px;
+    padding: 30px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.15); /* transparent glass */
+    backdrop-filter: blur(15px);  /* glass effect */
+    -webkit-backdrop-filter: blur(15px); /* Safari support */
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    color: #fff;
+}
+
+/* Heading */
+.innercard h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+/* Inputs */
+.innercard input {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 10px;
+    outline: none;
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    font-size: 16px;
+}
+
+/* Placeholder text */
+.innercard input::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* Button */
+.innercard button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 15px;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #6e8efb, #a777e3);
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.innercard button:hover {
+    background: linear-gradient(135deg, #5a7bf8, #946ee3);
+}
+
+/* Messages */
+.innercard .msg {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #ffdede;
+}

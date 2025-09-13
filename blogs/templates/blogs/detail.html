@@ -1,5 +1,101 @@
-<h1>{{ post.title }}</h1>
-<p>{{ post.content }}</p>
-{% if post.cover_image %}<img src="{{ post.cover_image.url }}" alt="cover">{% endif %}
-{% if post.video_url %}<p>Video: {{ post.video_url }}</p>{% endif %}
-{% if post.video_file %}<video controls src="{{ post.video_file.url }}"></video>{% endif %}
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>detail view</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'style/detail.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="blog-container">
+        <div class="blog-header">
+            <h1>{{ post.title }}</h1>
+            <div class="meta-info">
+                <div class="author">
+                    <i class="fas fa-user"></i> {{ post.author }}
+                </div>
+                <div class="date">
+                    <i class="fas fa-calendar"></i> {{ post.created_at|date:"F d, Y" }}
+                </div>
+                <div class="read-time">
+                    <i class="fas fa-clock"></i> 5 min read
+                </div>
+            </div>
+        </div>
+        
+        {% if post.cover_image %}
+        <div class="featured-image">
+            <img src="{{ post.cover_image.url }}" alt="{{ post.title }}">
+        </div>
+        {% endif %}
+        
+        <div class="blog-content">
+            {{ post.content|safe }}
+        </div>
+        
+        <div class="post-footer">
+            <div class="like-section">
+                <form method="post">
+                    {% csrf_token %}
+                    <button type="submit" name="like" class="like-btn">
+                        <i class="fas fa-thumbs-up"></i> {{ post.total_likes }}
+                    </button>
+                </form>
+            </div>
+            
+            <div class="share-section">
+                <p>Share this post:</p>
+                <div class="share-links">
+                    <a href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri }}" class="share-link twitter">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" class="share-link facebook">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="https://wa.me/?text={{ request.build_absolute_uri }}" class="share-link whatsapp">
+                        <i class="fab fa-whatsapp"></i>
+                    </a>
+                    <a href="mailto:?subject={{ post.title }}&body={{ request.build_absolute_uri }}" class="share-link email">
+                        <i class="fas fa-envelope"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="comment-section">
+            <h3>Leave a Comment</h3>
+            <form method="post" class="comment-form">
+                {% csrf_token %}
+                {{ comment_form.as_p }}
+                <button type="submit" name="comment" class="submit-btn">Post Comment</button>
+            </form>
+            
+            {% if user.is_authenticated and user == post.author %}
+            <div class="comments-list">
+                <h3>All Comments</h3>
+                {% for comment in post.comments.all %}
+                <div class="comment">
+                    <div class="comment-header">
+                        <span class="comment-author">{{ comment.name }}</span>
+                        <span class="comment-date">{{ comment.created_at|date:"F d, Y g:i A" }}</span>
+                    </div>
+                    <p class="comment-text">{{ comment.text }}</p>
+                </div>
+                {% empty %}
+                <p class="no-comments">No comments yet.</p>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+        
+        {% comment %} <div class="back-to-blog">
+            <a href="{% url 'blog:index' %}">← Back to all posts</a>
+        </div> {% endcomment %}
+    </div>
+</body>
+</html>
+
+
+
+
